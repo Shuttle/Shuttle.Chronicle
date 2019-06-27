@@ -1,0 +1,3 @@
+- raw event store | organizer -> may be multiple files
+- filtered event store | organizer -> probably multiple files
+
