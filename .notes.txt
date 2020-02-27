@@ -1,3 +1,18 @@
-- raw event store | organizer -> may be multiple files
-- indexed event store | organizer -> probably multiple files
-
+- raw event store 
+	- pluggable loss mitigation strategy
+		* could be cross-machine caching, for instance
+		* clustering
+		* default sends new items to clusters immediately (zmq)
+	- organizer -> may be multiple files
+	- has journal | uncompressed 
+	- compressed
+- indexed event store 
+	- organizer -> probably multiple files
+	- effectively a projection of the raw events tor --- can be rebuilt from raw storage
+	- dynamic page size
+		* blocks of X*instance size, e.g. per stream identifier (aggregate id in case of event storage)
+		* appended at back
+		* index allocation table kept separately (index-file.iat.cdf) keeps track of position in file and empty spaces
+		* can be shrunk to remove unallocated areas
+- locking strategy
+	- cannot read from indexer when writing
